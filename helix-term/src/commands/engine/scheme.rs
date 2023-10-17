@@ -39,7 +39,7 @@ use std::{
 use steel::{rvals::Custom, steel_vm::builtin::BuiltInModule};
 
 use crate::{
-    commands::insert,
+    commands::{insert, move_window_to_the_left, move_window_to_the_right},
     compositor::{self, Component, Compositor},
     config::Config,
     job::{self, Callback},
@@ -1300,6 +1300,9 @@ fn configure_engine() -> std::rc::Rc<std::cell::RefCell<steel::steel_vm::engine:
     module.register_fn("get-init-scm-path", get_init_scm_path);
 
     module.register_fn("get-helix-cwd", get_helix_cwd);
+
+    module.register_fn("move-window-far-left", move_window_to_the_left);
+    module.register_fn("move-window-far-right", move_window_to_the_right);
 
     module.register_fn("search-in-directory", search_in_directory);
     module.register_fn("regex-selection", regex_selection);

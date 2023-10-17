@@ -5149,6 +5149,24 @@ fn transpose_view(cx: &mut Context) {
     cx.editor.transpose_view()
 }
 
+fn move_window_to_the_left(cx: &mut Context) {
+    while cx
+        .editor
+        .tree
+        .swap_split_in_direction(helix_view::tree::Direction::Left)
+        .is_some()
+    {}
+}
+
+fn move_window_to_the_right(cx: &mut Context) {
+    while cx
+        .editor
+        .tree
+        .swap_split_in_direction(helix_view::tree::Direction::Right)
+        .is_some()
+    {}
+}
+
 /// Open a new split in the given direction specified by the action.
 ///
 /// Maintain the current view (both the cursor's position and view in document).
