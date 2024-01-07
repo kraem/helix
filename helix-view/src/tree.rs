@@ -249,13 +249,13 @@ impl Tree {
         self.recalculate()
     }
 
-    pub fn views(&self) -> impl Iterator<Item = (&View, bool)> {
+    pub fn views(&self) -> impl Iterator<Item = (&View, bool, bool)> {
         let focus = self.focus;
         self.nodes.iter().filter_map(move |(key, node)| match node {
             Node {
                 content: Content::View(view),
                 ..
-            } => Some((view.as_ref(), focus == key)),
+            } => Some((view.as_ref(), focus == key, view.zoom)),
             _ => None,
         })
     }
@@ -353,6 +353,7 @@ impl Tree {
                         log::debug!("recalculate: have zoom! {}", node.zoom);
                         _view.area = self.area;
                         self.focus = _view.id;
+                        _view.zoom = true;
                         log::debug!("{:?}", self.stack);
                         return;
                     }

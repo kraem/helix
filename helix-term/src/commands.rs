@@ -3068,7 +3068,7 @@ fn jumplist_picker(cx: &mut Context) {
         cx.editor
             .tree
             .views()
-            .flat_map(|(view, _)| {
+            .flat_map(|(view, _, _)| {
                 view.jumps
                     .iter()
                     .map(|(doc_id, selection)| new_meta(view, *doc_id, selection.clone()))
@@ -5224,7 +5224,7 @@ fn wonly(cx: &mut Context) {
         .editor
         .tree
         .views()
-        .map(|(v, focus)| (v.id, focus))
+        .map(|(v, focus, zoom)| (v.id, focus))
         .collect::<Vec<_>>();
     for (view_id, focus) in views {
         if !focus {

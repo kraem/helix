@@ -139,6 +139,7 @@ impl Application {
 
         let terminal = Terminal::new(backend)?;
         let area = terminal.size().expect("couldn't get terminal size");
+        log::debug!("we in Application new() {:?}", area);
         let mut compositor = Compositor::new(area);
         let config = Arc::new(ArcSwap::from_pointee(config));
         let mut editor = Editor::new(

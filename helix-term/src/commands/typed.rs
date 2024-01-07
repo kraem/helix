@@ -809,7 +809,7 @@ fn quit_all_impl(cx: &mut compositor::Context, force: bool) -> anyhow::Result<()
     }
 
     // close all views
-    let views: Vec<_> = cx.editor.tree.views().map(|(view, _)| view.id).collect();
+    let views: Vec<_> = cx.editor.tree.views().map(|(view, _, _)| view.id).collect();
     for view_id in views {
         cx.editor.close(view_id);
     }

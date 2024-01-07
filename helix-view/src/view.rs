@@ -113,6 +113,7 @@ pub struct View {
     pub id: ViewId,
     pub offset: ViewPosition,
     pub area: Rect,
+    pub zoom: bool,
     pub doc: DocumentId,
     pub jumps: JumpList,
     // documents accessed from this view from the oldest one to last viewed one
@@ -160,6 +161,7 @@ impl View {
             object_selections: Vec::new(),
             gutters,
             doc_revisions: HashMap::new(),
+            zoom: false,
         }
     }
 
