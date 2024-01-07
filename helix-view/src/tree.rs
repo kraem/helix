@@ -21,6 +21,7 @@ pub struct Tree {
 pub struct Node {
     parent: ViewId,
     content: Content,
+    zoom: bool,
 }
 
 #[derive(Debug)]
@@ -34,6 +35,7 @@ impl Node {
         Self {
             parent: ViewId::default(),
             content: Content::Container(Box::new(Container::new(layout))),
+            zoom: false,
         }
     }
 
@@ -41,6 +43,7 @@ impl Node {
         Self {
             parent: ViewId::default(),
             content: Content::View(Box::new(view)),
+            zoom: false,
         }
     }
 }
@@ -339,6 +342,31 @@ impl Tree {
 
         self.stack.push((self.root, self.area));
 
+        while let Some((key, area)) = self.stack.pop() {
+            let node = &mut self.nodes[key];
+
+            match &mut node.content {
+                Content::View(_view) => {
+                    // _view.area = area;
+                    log::debug!("recalculate: zoom {:?} {}", key, node.zoom);
+                    if node.zoom {
+                        log::debug!("recalculate: have zoom! {}", node.zoom);
+                        _view.area = self.area;
+                        return;
+                    }
+                }
+                Content::Container(container) => {
+                    for (_i, child) in container.children.iter().enumerate() {
+                        self.stack.push((*child, area));
+                    }
+                }
+            }
+        }
+
+        log::debug!("recalculate: past zoom check");
+
+        self.stack.push((self.root, self.area));
+
         // take the area
         // fetch the node
         // a) node is view, give it whole area
@@ -557,6 +585,16 @@ impl Tree {
             let (key, _) = self.traverse().next().unwrap();
             key
         }
+    }
+
+    pub fn toggle_focus_window(&mut self) {
+        // while let Some((key, _area)) = self.stack.pop() {
+        //     let node = &mut self.nodes[key];
+        //     node.zoom = false;
+        // }
+        log::debug!("toggle_focus_window: setting zoom to {:?}", self.focus);
+        self.nodes[self.focus].zoom = !self.nodes[self.focus].zoom;
+        self.recalculate();
     }
 
     pub fn transpose(&mut self) {

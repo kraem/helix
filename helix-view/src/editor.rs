@@ -1647,6 +1647,11 @@ impl Editor {
         }
     }
 
+    pub fn toggle_zoom_view(&mut self) {
+        log::debug!("toggle_zoom_view: called");
+        self.tree.toggle_focus_window();
+    }
+
     pub fn swap_split_in_direction(&mut self, direction: tree::Direction) {
         self.tree.swap_split_in_direction(direction);
     }

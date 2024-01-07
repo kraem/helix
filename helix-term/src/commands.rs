@@ -499,6 +499,7 @@ impl MappableCommand {
         record_macro, "Record macro",
         replay_macro, "Replay macro",
         command_palette, "Open command palette",
+        toggle_zoom_view, "Toggle zoom for this split",
     );
 }
 
@@ -5111,6 +5112,10 @@ fn rotate_view(cx: &mut Context) {
 
 fn rotate_view_reverse(cx: &mut Context) {
     cx.editor.focus_prev()
+}
+
+fn toggle_zoom_view(cx: &mut Context) {
+    cx.editor.toggle_zoom_view()
 }
 
 fn jump_view_right(cx: &mut Context) {
