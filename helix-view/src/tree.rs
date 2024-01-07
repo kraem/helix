@@ -342,7 +342,7 @@ impl Tree {
 
         self.stack.push((self.root, self.area));
 
-        for (key, area) in self.stack.clone() {
+        while let Some((key, area)) = self.stack.pop() {
             let node = &mut self.nodes[key];
 
             match &mut node.content {
@@ -351,15 +351,16 @@ impl Tree {
                     log::debug!("recalculate: zoom {:?} {}", key, node.zoom);
                     if node.zoom {
                         log::debug!("recalculate: have zoom! {}", node.zoom);
-                        // _view.area = self.area;
+                        _view.area = self.area;
                         self.focus = _view.id;
+                        log::debug!("{:?}", self.stack);
                         return;
                     }
                 }
                 Content::Container(container) => {
-                    // for (_i, child) in container.children.iter().enumerate() {
-                    //     self.stack.push((*child, area));
-                    // }
+                    for (_i, child) in container.children.iter().enumerate() {
+                        self.stack.push((*child, area));
+                    }
                 }
             }
         }
